@@ -1,0 +1,30 @@
+# ── 白名单模式：默认忽略一切，只放行清单与文档 ────────────────────
+# 理由：pandora-kernel 的实际内容（kernel / *.img / *.dtb / *.ko）恰好全部命中
+# 主仓 .gitignore 的忽略规则（*.img / *.ko / *.dtb），而 kernel 没有扩展名、
+# 反而会被提交 —— 直接放进主仓会得到"只有 kernel、没有模块"的半残提交。
+# 这里反过来写：* 全忽略，只逐个放行需要入库的文本文件。
+# 注意：否定规则对"被忽略的目录"内部的文件无效，所以只放行顶层文件。
+
+*
+!.gitignore
+!.gitattributes
+!README.md
+!LICENSE
+!manifest.sha256
+!modules.load.vendor_boot
+!modules.load.recovery
+!modules.load.vendor_dlkm
+!modules.load.system_dlkm
+!verify.sh
+
+# 显式兜底（即使将来有人改了上面的白名单，这些也绝不允许入库）
+kernel
+*.ko
+*.img
+*.dtb
+*.dtbo
+dtb/
+vendor_ramdisk/
+vendor_dlkm/
+system_dlkm/
+system_dlkm_flatten/
